@@ -41,7 +41,7 @@ def after_request(response):
 def index():
     user_id = session["user_id"]
 
-    transactions_db = db.execute("SELECT symbol, SUM(shares) AS shares, transactions.price FROM transactions WHERE user_id = ? GROUP BY symbol HAVING SUM(shares) > 0", user_id)
+    transactions_db = db.execute("SELECT symbol, SUM(shares) AS shares, transactions.price FROM transactions WHERE user_id = ? GROUP BY symbol, price HAVING SUM(shares) > 0", user_id)
     cash_db = db.execute("SELECT cash FROM users WHERE id = ?", user_id)
     cash1 = cash_db[0]["cash"]
     cash = usd(cash1)
